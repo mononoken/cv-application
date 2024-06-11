@@ -1,5 +1,6 @@
 import { PersonItem } from "./components/Person/PersonItem";
 import { EducationItems } from "./components/Education/EducationItem";
+import { ExperienceItems } from "./components/Experience/ExperienceItem";
 import "./App.css";
 
 function App() {
@@ -7,7 +8,7 @@ function App() {
     <>
       <PersonItem />
       <EducationItems />
-      {/* <SchoolItem /> */}
+      <ExperienceItems />
     </>
   );
 }
