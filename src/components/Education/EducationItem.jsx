@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Education } from "./Education";
 
 export function EducationItems() {
@@ -23,10 +23,6 @@ export function EducationItems() {
     setEditable((prevEditable) => !prevEditable);
   };
 
-  useEffect(() => {
-    console.log("Educations:", educations); // Log educations array when it changes
-  }, [educations]);
-
   return (
     <div>
       <ul id="education-forms">
@@ -37,10 +33,20 @@ export function EducationItems() {
                 education={education}
                 setEducations={setEducations}
               />
+              <RemoveItemButton
+                education={education}
+                educations={educations}
+                setEducations={setEducations}
+              />
             </li>
           ) : (
             <li key={education.id}>
               <EducationView education={education} />
+              <RemoveItemButton
+                education={education}
+                educations={educations}
+                setEducations={setEducations}
+              />
             </li>
           ),
         )}
@@ -106,6 +112,14 @@ function AddFormButton({ educations, setEducations }) {
   };
 
   return <button onClick={addForm}>Add +</button>;
+}
+
+function RemoveItemButton({ education, educations, setEducations }) {
+  const removeItem = () => {
+    setEducations([...educations].filter((edu) => edu !== education));
+  };
+
+  return <button onClick={removeItem}>Remove -</button>;
 }
 
 function EducationView({ education }) {
