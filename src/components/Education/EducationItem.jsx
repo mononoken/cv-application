@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Education } from "./Education";
 
 export function EducationItems() {
@@ -23,20 +23,23 @@ export function EducationItems() {
     setEditable((prevEditable) => !prevEditable);
   };
 
+  useEffect(() => {
+    console.log("Educations:", educations); // Log educations array when it changes
+  }, [educations]);
+
   return (
     <div>
       <ul id="education-forms">
-        {educations.map((education, index) =>
+        {educations.map((education) =>
           editable ? (
-            <li key={index}>
+            <li key={education.id}>
               <EducationForm
                 education={education}
-                index={index}
                 setEducations={setEducations}
               />
             </li>
           ) : (
-            <li key={index}>
+            <li key={education.id}>
               <EducationView education={education} />
             </li>
           ),
@@ -48,46 +51,46 @@ export function EducationItems() {
   );
 }
 
-function EducationForm({ education, index, setEducations }) {
+function EducationForm({ education, setEducations }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEducations((prevEducations) => {
-      return prevEducations.map((edu, i) =>
-        i === index ? { ...edu, [name]: value } : edu,
+      return prevEducations.map((edu) =>
+        edu.id === education.id ? { ...edu, [name]: value } : edu,
       );
     });
   };
 
   return (
     <form>
-      <label htmlFor={`school-${index}`}>School:</label>
+      <label htmlFor={`school-${education.id}`}>School:</label>
       <input
         type="text"
-        id={`school-${index}`}
+        id={`school-${education.id}`}
         name="school"
         value={education.school || ""}
         onChange={handleChange}
       />
-      <label htmlFor={`degree-${index}`}>Degree:</label>
+      <label htmlFor={`degree-${education.id}`}>Degree:</label>
       <input
         type="text"
-        id={`degree-${index}`}
+        id={`degree-${education.id}`}
         name="degree"
         value={education.degree || ""}
         onChange={handleChange}
       />
-      <label htmlFor={`startDate-${index}`}>Start Date:</label>
+      <label htmlFor={`startDate-${education.id}`}>Start Date:</label>
       <input
         type="text"
-        id={`startDate-${index}`}
+        id={`startDate-${education.id}`}
         name="startDate"
         value={education.startDate || ""}
         onChange={handleChange}
       />
-      <label htmlFor={`endDate-${index}`}>End Date:</label>
+      <label htmlFor={`endDate-${education.id}`}>End Date:</label>
       <input
         type="text"
-        id={`endDate-${index}`}
+        id={`endDate-${education.id}`}
         name="endDate"
         value={education.endDate || ""}
         onChange={handleChange}
