@@ -26,81 +26,92 @@ export function EducationItems() {
   return (
     <div>
       <ul id="education-forms">
-        {educations.map((education) =>
+        {educations.map((education, index) =>
           editable ? (
-            <li key={education.id}>
+            <li key={index}>
               <EducationForm
                 education={education}
+                index={index}
                 setEducations={setEducations}
               />
             </li>
           ) : (
-            <li key={education.id}>
+            <li key={index}>
               <EducationView education={education} />
             </li>
           ),
         )}
       </ul>
+      <AddFormButton educations={educations} setEducations={setEducations} />
       <button onClick={toggleEditable}>{editable ? "Save" : "Edit"}</button>
     </div>
   );
 }
 
-function EducationForm({ education, setEducations }) {
+function EducationForm({ education, index, setEducations }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEducations((prevEducations) => {
-      return prevEducations.map((edu) =>
-        edu.id === education.id ? { ...edu, [name]: value } : edu,
+      return prevEducations.map((edu, i) =>
+        i === index ? { ...edu, [name]: value } : edu,
       );
     });
   };
 
   return (
     <form>
-      <label htmlFor={`school-${education.id}`}>School:</label>
+      <label htmlFor={`school-${index}`}>School:</label>
       <input
         type="text"
-        id={`school-${education.id}`}
+        id={`school-${index}`}
         name="school"
-        value={education.school}
+        value={education.school || ""}
         onChange={handleChange}
       />
-      <label htmlFor={`degree-${education.id}`}>Degree:</label>
+      <label htmlFor={`degree-${index}`}>Degree:</label>
       <input
         type="text"
-        id={`degree-${education.id}`}
+        id={`degree-${index}`}
         name="degree"
-        value={education.degree}
+        value={education.degree || ""}
         onChange={handleChange}
       />
-      <label htmlFor={`startDate-${education.id}`}>Start Date:</label>
+      <label htmlFor={`startDate-${index}`}>Start Date:</label>
       <input
         type="text"
-        id={`startDate-${education.id}`}
+        id={`startDate-${index}`}
         name="startDate"
-        value={education.startDate}
+        value={education.startDate || ""}
         onChange={handleChange}
       />
-      <label htmlFor={`endDate-${education.id}`}>End Date:</label>
+      <label htmlFor={`endDate-${index}`}>End Date:</label>
       <input
         type="text"
-        id={`endDate-${education.id}`}
+        id={`endDate-${index}`}
         name="endDate"
-        value={education.endDate}
+        value={education.endDate || ""}
         onChange={handleChange}
       />
     </form>
   );
 }
 
+function AddFormButton({ educations, setEducations }) {
+  const addForm = () => {
+    const newEducation = new Education("", "", "", "");
+    setEducations([...educations, newEducation]);
+  };
+
+  return <button onClick={addForm}>Add +</button>;
+}
+
 function EducationView({ education }) {
   return (
-    <li>
+    <>
       <h2>{education.school}</h2>
       <div>{education.degree}</div>
       <div>{education.startDate}</div>
       <div>{education.endDate}</div>
-    </li>
+    </>
   );
 }

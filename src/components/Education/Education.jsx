@@ -1,16 +1,9 @@
 export class Education {
-  static currentId = 0;
-
-  constructor(school, degree, startDate, endDate) {
-    this._id = ++Education.currentId;
+  constructor(school = "", degree = "", startDate = "", endDate = "") {
     this._school = school;
     this._degree = degree;
-    this.startDate = startDate;
-    this.endDate = endDate;
-  }
-
-  get id() {
-    return this._id;
+    this._startDate = startDate;
+    this._endDate = endDate;
   }
 
   get school() {
