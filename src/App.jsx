@@ -1,13 +1,12 @@
-import { PersonItem } from "./components/Person";
+import { PersonItem } from "./components/Person/PersonItem";
+import { EducationItems } from "./components/Education/EducationItem";
 import "./App.css";
 
 function App() {
-  // const [count, setCount] = useState(0);
-
   return (
     <>
       <PersonItem />
-      {/* <ExperienceItem /> */}
+      <EducationItems />
       {/* <SchoolItem /> */}
     </>
   );
